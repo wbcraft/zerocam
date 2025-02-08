@@ -16,7 +16,7 @@ raw=$(date +%Y%m%d_%H%M).raw
 # Run libcamera with these options, defined above.
 libcamera-vid -t 3601s --bitrate 6000000 --autofocus-mode auto --width 1920 --height 1080 --framerate 24 --nopreview --output $raw --tuning-file /usr/share/libcamera/ipa/rpi/vc4/imx708.json
 
-# Video Conversion
+# Video Conversion -- match the framerate in the libcamera-vid command above.
 for video in `ls $raw`
   do
     ffmpeg -framerate 24 -i $video -c copy "$video.mp4"
