@@ -43,7 +43,7 @@ for i in `ls *.mp4`; do
     else
       /usr/bin/rsync -avu --ignore-existing $i /mnt/tgz/recordings/
       /usr/bin/sleep 3
-      /usr/bin/rm -rf *.raw *.mp4
+      /usr/bin/rm -rf $raw *.mp4
       /usr/bin/printf "\n\nLocal files deleted\n\n"
     fi
 done
