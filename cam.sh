@@ -1,16 +1,19 @@
 #!/bin/bash
-#export DISPLAY=0
+# export DISPLAY=0
 # Camera Settings
-# -t = time limit is ~1 hour
-# --bitrate = ~6000kbps
-# --autofocus-mode manual or auto
-# --width & --height = normal stuff
-# --framerate should be 30 max for our purposes.  24 is used now.
-# --nopreview means it won't try to show it on a screen
-# --output = defined in the raw variable
+# -t = my time limit is ~1 hour
+# --bitrate = ~6000kbps, but you can go as high as the camera allows.
+# --autofocus-mode manual or auto.
+# --width & --height = normal resolution stuff.
+# --framerate should be 30 max for our purposes.  24 is my use case.
+# --nopreview means it won't try to show it on a screen.
+# --output = defined in the raw variable.
 # --tuning-file is based on your sensor.  For this purpose, I'm using the Camera Module 3. 
 
-# Let's make a variable for the raw file
+# First, let's define our working directory so it works in cron.
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+# Let's make a variable for the raw file.
 raw=$(date +%Y%m%d_%H%M).raw
 
 # Run libcamera with these options, defined above.
@@ -28,16 +31,21 @@ for rename in `ls *.mp4`
     mv "$rename" "`echo $rename | sed 's/.raw//'`"
   done
 
-# This checks for a connection to a server. If there isn't a connection, it dies.  If there is a connection, it'll rsync the files, remove the local files, then quit.
-SERVER=10.0.0.1
+# This checks to see if the NFS mount is available (for my storage). If there isn't a connection, it dies.  If there is a connection, it'll rsync the files, remove the local files, then quit.
+# You can comment the mount command and uncomment the SERVER and ping lines, or put your own NFS/SMB moutn in the rsync line.
+
+#SERVER=10.0.0.1
 for i in `ls *.mp4`; do
-  /usr/bin/ping -c 1 $SERVER &> /dev/null
+#  /usr/bin/ping -c 1 $SERVER &> /dev/null
+   /usr/bin/mount | grep nfs &> /dev/null
     if [[ $? -ne 0 ]]; then
       /usr/bin/printf "Couldn't rsync - files not deleted"
     else
-      /usr/bin/rsync -avu --ignore-existing "/home/blane/cam/$i" /mnt/tgz/recordings/
+      /usr/bin/rsync -avu --ignore-existing $i /mnt/tgz/recordings/
       /usr/bin/sleep 3
       /usr/bin/rm -rf *.raw *.mp4
       /usr/bin/printf "\n\nLocal files deleted\n\n"
     fi
 done
+
+
