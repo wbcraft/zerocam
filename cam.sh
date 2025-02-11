@@ -17,6 +17,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 raw=$(date +%Y%m%d_%H%M).raw
 
 # Run libcamera with these options, defined above.
+#
+# I can't write directly to the server or all processing would be done there.  The Zero 2 Wi-Fi connection (in my case) is too slow to stream (write) 1080p@24 recorded at 6k bitrate.  720p@30 may be more suitable.
+
 libcamera-vid -t 3601s --bitrate 6000000 --autofocus-mode auto --width 1920 --height 1080 --framerate 24 --nopreview --output $raw --tuning-file /usr/share/libcamera/ipa/rpi/vc4/imx708.json
 
 # Video Conversion -- match the framerate in the libcamera-vid command above.
