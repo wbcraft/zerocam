@@ -18,7 +18,8 @@ raw=$(date +%Y%m%d_%H%M).raw
 
 # Run libcamera with these options, defined above.
 #
-# I can't write directly to the server or all processing would be done there.  The Zero 2 Wi-Fi connection (in my case) is too slow to stream (write) 1080p@24 recorded at 6k bitrate.  720p@30 may be more suitable.
+# I can't write directly to the server or all processing would be done there.  The Zero 2 Wi-Fi connection (in my case) is too slow to stream (write) 1080p@24 recorded at 6k bitrate.  
+# 720p@30 may be more suitable and will be tested.
 
 libcamera-vid -t 3601s --bitrate 6000000 --autofocus-mode auto --width 1920 --height 1080 --framerate 24 --nopreview --output $raw --tuning-file /usr/share/libcamera/ipa/rpi/vc4/imx708.json
 
@@ -34,8 +35,8 @@ for rename in `ls *.mp4`
     mv "$rename" "`echo $rename | sed 's/.raw//'`"
   done
 
-# This checks to see if the NFS mount is available (for my storage). If there isn't a connection, it dies.  If there is a connection, it'll rsync the files, remove the local files, then quit.
-# You can comment the mount command and uncomment the SERVER and ping lines, or put your own NFS/SMB moutn in the rsync line.
+# This checks to see if the NFS mount is available (for server storage). If there isn't a mount, it dies.  If there is a mount, it'll rsync the files, remove the local files, then quit.
+# You can comment the mount command and uncomment the SERVER and ping lines if you wish to check network instead.  Edit the rsync line for your use case.
 
 #SERVER=10.0.0.1
 for i in `ls *.mp4`; do
