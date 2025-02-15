@@ -5,7 +5,6 @@ import time
 
 
 picam2 = Picamera2()
-#config = picam2.create_configuration(width=1920, height=1080)
 video_config = picam2.create_video_configuration(main={"size":(1920,1080)})
 picam2.configure(video_config)
 
