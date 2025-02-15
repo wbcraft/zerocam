@@ -6,3 +6,6 @@ The purpose of this is to build a small, relatively cheap dash camera setup.  Th
 Don't expect anything groundbreaking here.  
 
 The end goal is to write something in Python, add on/off buttons to start/stop the camera via GPIO, and configure rsync to transfer when connected to a <i>specific</i> Wi-Fi network.  The target server will be doing the h264 to mp4 conversion - it's just in the cam.sh for benchmarking.
+
+
+Also, I don't know how to use github or versioning properly.  Leave me alone.
