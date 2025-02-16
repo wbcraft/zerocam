@@ -13,7 +13,7 @@
 # First, let's define our working directory so it works in cron.
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-# Let's define a couple variables first...
+# Let's define a couple variables first... date, finding the mount, and the server path.
 raw=$(date +%Y%m%d_%H%M).raw
 mount=$(mount | grep nfs)
 server=/mnt/tgz/recordings
@@ -47,10 +47,8 @@ if [ -z "$mount" ]; then
 
 else
         printf "NFS Available. Writing to Server!\n\n"
-
         
-# Run libcamera with these options, defined above.
-# Quick variable for the server mount point.
+# Run libcamera with these options, defined above.  This assumes the NFS share is available.
 
         libcamera-vid -t 10s --bitrate 8000000 --width 1920 --height 1080 --framerate 24 --nopreview --output $server/$raw --tuning-file /usr/share/libcamera/ipa/rpi/vc4/imx708.json
 
