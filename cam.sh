@@ -1,4 +1,6 @@
 #!/bin/bash
+# by: wbcraft@github.  Assume this is 100% free to use.
+
 # export DISPLAY=0
 # Camera Settings
 # -t = my time limit is ~1 hour
