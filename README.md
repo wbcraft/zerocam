@@ -14,3 +14,8 @@ The end goal is to:
 
 
 Also, I don't know how to use github or versioning properly.  Leave me alone.
+
+
+### Debian Packages to be Installed
+apt-get install ffmpeg libcamera* libavcodec* -y
+
